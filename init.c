@@ -24,6 +24,7 @@ void	init_threads(t_data *data, phtread_mutex_t *forks, t_philos *philos)
 			ft_destroy(philos, forks)
 		i++;
 	}
+	ft_monitor(data, philos);
 }
 
 void	init_forks(pthread_mutex_t *forks, int n_philos)
