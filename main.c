@@ -12,14 +12,31 @@
 
 #include "philo.h"
 
+int	check_arg(char **argv)
+{
+	if ((ft_atoi(argv[1]) > 200) || (ft_atoi(argv[1] < 0)))
+		return (ft_error("ERROR: Number of philosopher"));
+	if (ft_atoi(argv[2] ) <= 0)
+		return (ft_error("ERROR: Time to die"));
+	if (ft_atoi(argv[3] ) <= 0)
+		return (ft_error("ERROR: Time to eat"))
+	if (ft_atoi(argv[4]) <= 0)
+		return (ft_error("ERROR: time to sleep"));
+	if (argv[5])
+	{
+		if (ft_atoi(argv[5]) <= 0)
+			return (ft_error("ERROR: Number og meals"));
+	}
+}
+
 int main(int argc, char **argv)
 {
-	t_philos		philos;
+	t_philos		philos[200];
 	t_data			data;
-	pthread_mutex_t	*forks;
 
 	if (argc != 5 && argc != 6)
-		return (printf("ERROR: Number of arguments"));
+		return (ft_error("ERROR: Number of arguments"));
 	if (check_arg(argv))
 		return (1);
+	init_program(&data, philos, argv);
 }
