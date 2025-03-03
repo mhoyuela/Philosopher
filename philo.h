@@ -31,24 +31,6 @@
 # define RED "\033[0;31m"
 # define WHITE "\033[37;1m"
 
-typedef struct s_data
-{
-	int				n_philos;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	long			num_times_to_eat;
-	int				meals_finish;
-	int				dead_flag;
-	long			time;
-	pthread_mutex_t	meal_finish_lock;
-	pthread_mutex_t	monitor_lock;
-	pthread_mutex_t	dead_lock;
-	pthread_mutex_t	meal_lock;
-	pthread_mutex_t	write_lock;
-	t_philos		philos;
-}					t_data;
-
 typedef struct s_philos
 {
 	pthread_t		thread;
@@ -58,31 +40,61 @@ typedef struct s_philos
 	pthread_mutex_t	last_time_to_eat_lock;
 	pthread_mutex_t	philo_full_lock;
 	size_t			first_meal;
+	size_t			last_meal;
 	long			last_time_to_eat;
 	long			count_eat;
+	long			time_to_sleep;
 	int				times_eaten;
 	int				n_time_to_eat;
 	int				philo_full;
 	int				id;
-	t_data			*data;
+	struct s_data	*data;
 }				t_philos;
+
+typedef struct s_data
+{
+	int				n_philos;
+	long			time_to_die;
+	long			time_to_eat;
+	int				meals_finish;
+	int				dead_flag;
+	long			time;
+	pthread_mutex_t	meal_finish_lock;
+	pthread_mutex_t	monitor_lock;
+	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	write_lock;
+	t_philos		*philos; 
+}					t_data;
 
 //init
 
 void	init_forks(pthread_mutex_t *forks, int n_philos);
-void	init_philo(t_philos *philos, t_data *data, phtread_mutex_t *forks, char **argv);
+void	init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **argv);
 void	init_program(t_philos *philos, t_data *data, char **argv);
-void	init_threads(t_data *data, phtread_mutex_t *forks, t_philos *philos);
+void	init_threads(t_data *data, pthread_mutex_t *forks, t_philos *philos);
 
 
 //utils
 
-void	ft_error(char *str);
+int		ft_error(char *str);
 long	ft_atoi(char *str);
-size_t	ft_get_time(void)
+size_t	ft_get_time(void);
+int		ft_loop(t_philos *philos);
 
 //prints
 
-void    ft_print(char *str, t_philos *philos, int id);
+void	ft_print(char *str, t_philos *philos, int id);
 
+//monitor
+
+int		ft_die(t_philos *philos, t_data *data);
+int		ft_mealcounter(t_philos *philos, t_data *data);
+void	ft_monitor(t_data *data, t_philos *philos);
+
+//routine
+
+void	grab_forks(t_philos *philos);
+void	ft_eat(t_philos *philos);
+void	*routine(void *ptr);
 #endif

@@ -45,7 +45,7 @@ long ft_atoi(char *str)
 	return (result * sign);
 }
 
-void	ft_error(char *str)
+int	ft_error(char *str)
 {
 	int	i;
 
@@ -55,6 +55,7 @@ void	ft_error(char *str)
 		write(STDERR_FILENO, &str[i], 1);
 		i++;
 	}
+	return (1);
 }
 
 size_t	ft_get_time(void)
@@ -69,7 +70,7 @@ size_t	ft_get_time(void)
 /*Esta funcion calcula el timepo en milisegundos, con una paranoia
 muy rara y muy absurda*/
 
-void	ft_destroy(t_data *data, phtread_mutex_t *forks)
+void	ft_destroy(t_data *data, pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -80,4 +81,16 @@ void	ft_destroy(t_data *data, phtread_mutex_t *forks)
 		i++;
 	}
 	phtread_mutex_destroy(&data->monitor_lock);
+}
+
+int	ft_loop(t_philos *philos)
+{
+	pthread_mutex_lock(&philos->data->write_lock);
+	if (philos->data->dead_flag)
+	{
+		pthread_mutex_unlock(&philos->data->write_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&philos->data->write_lock);
+	return (0);
 }
