@@ -16,13 +16,34 @@ int ft_die(t_philos *philos, t_data *data)
 	pthread_mutex_lock(&philos->data->monitor_lock);
 	if (ft_get_time() - philos->last_meal >= data->time_to_die)
 	{
-		ft_print("")
+		ft_print("philos", philos, philos->id);
+		pthread_mutex_unlock(&philos->data->monitor_lock);
+		return (1);
 	}
+	pthread_mutex_unlock(&philos->data->monitor_lock);
+	return (0);
 }
 
 int ft_mealcounter(t_philos *philos, t_data *data)
 {
+	int	counter;
+	int	i;
 
+	i = 0;
+	counter = 0;
+	if (philos->n_time_to_eat = -1)
+		return (0);
+		while (i < data->n_philos)
+		{
+			usleep(4000);
+			pthread_mutex_lock(&philos->data->monitor_lock);
+			if (philos[i].times_eaten >= philos->n_time_to_eat)
+				counter++;
+			if (counter == data->n_philos)
+				return (1);
+			i++;
+		}
+		return (0);
 }
 
 void ft_monitor(t_data *data, t_philos *philos)
