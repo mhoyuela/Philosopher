@@ -43,7 +43,7 @@ typedef struct s_philos
 	size_t			last_meal;
 	long			last_time_to_eat;
 	long			count_eat;
-	long			time_to_sleep;
+	size_t			time_to_sleep;
 	int				times_eaten;
 	int				n_time_to_eat;
 	int				philo_full;
@@ -54,10 +54,11 @@ typedef struct s_philos
 typedef struct s_data
 {
 	int				n_philos;
-	long			time_to_die;
-	long			time_to_eat;
+	size_t			time_to_die;
+	size_t			time_to_eat;
 	int				meals_finish;
 	int				dead_flag;
+	long			time_to_sleep;
 	long			time;
 	pthread_mutex_t	meal_finish_lock;
 	pthread_mutex_t	monitor_lock;
@@ -81,6 +82,7 @@ int		ft_error(char *str);
 long	ft_atoi(char *str);
 size_t	ft_get_time(void);
 int		ft_loop(t_philos *philos);
+void	ft_destroy(t_data *data, pthread_mutex_t *forks);
 
 //prints
 

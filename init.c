@@ -20,11 +20,18 @@ void	init_threads(t_data *data, pthread_mutex_t *forks, t_philos *philos)
 	while (i < data->n_philos)
 	{
 		usleep(5000);
-		if (phtread_create(&philos[i].thread, NULL, &routine, philos[i].id) != 0)
-			ft_destroy(philos, forks);
+		if (pthread_create(&philos[i].thread, NULL, &routine, &philos[i]) != 0)
+			ft_destroy(data, forks);
 		i++;
 	}
 	ft_monitor(data, philos);
+	i = 0;
+	while (i < data->n_philos)
+	{
+		if (pthread_join(philos[i].thread, NULL) != 0)
+			ft_destroy(data, forks);
+		i++;
+	}
 }
 
 void	init_forks(pthread_mutex_t *forks, int n_philos)
@@ -51,7 +58,7 @@ void	init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **a
 		data[i].time_to_sleep = ft_atoi(argv[4]);
 		philos[i].last_meal = ft_get_time();
 		philos[i].id = i + 1;
-		philos[i].fork_1 = &forks;
+		philos[i].fork_1 = &forks[i];
 		if (philos[i].id == 1)
 			philos[i].fork_2 = &forks[data->n_philos - 1];
 		else
