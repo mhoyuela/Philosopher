@@ -1,9 +1,9 @@
 NAME    = philo
-USER    = jormoral
+USER    = mhoyuela
 CFLAGS  = -Wall -Wextra -Werror -g -fsanitize=thread
 CC      = clang
 
-SRCS    := init.c monitor.c main.c routine.c utils.c print.c
+SRCS    := init.c monitor.c main.c routine.c utils.c prints.c
 OBJS    := ${SRCS:.c=.o}
 
 all: $(NAME)

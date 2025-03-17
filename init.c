@@ -34,16 +34,21 @@ void	init_threads(t_data *data, pthread_mutex_t *forks, t_philos *philos)
 	}
 }
 
-void	init_forks(pthread_mutex_t *forks, int n_philos)
+void init_forks(pthread_mutex_t *forks, int n_philos)
 {
-	int	i;
-
+	int i;
+	
 	i = 0;
-	while (i < n_philos)
+    if (!forks)
 	{
-		pthread_mutex_init(&forks[i], NULL);
-		i++;
-	}
+        printf("Error: Puntero a forks nulo.\n");
+        return;
+    }
+    while (i < n_philos) 
+	{
+        pthread_mutex_init(&forks[i], NULL);
+        i++;
+    }
 }
 
 void	init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **argv)

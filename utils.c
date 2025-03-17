@@ -21,7 +21,9 @@ long ft_atoi(char *str)
 	sign = 1;
 	result = 0;
 	i = 0;
-	while (str[i] >= 9 && str[i] <= 13)
+	if (str == NULL)
+		return (0);
+	while ((str[i] == ' ') || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '+')
 		i++;
@@ -77,10 +79,10 @@ void	ft_destroy(t_data *data, pthread_mutex_t *forks)
 	i = 0;
 	while (i < data->n_philos)
 	{
-		phtread_mutex_destroy(&forks[i]);
+		pthread_mutex_destroy(&forks[i]);
 		i++;
 	}
-	phtread_mutex_destroy(&data->monitor_lock);
+	pthread_mutex_destroy(&data->monitor_lock);
 }
 
 int	ft_loop(t_philos *philos)

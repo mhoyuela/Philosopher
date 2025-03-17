@@ -14,7 +14,7 @@
 
 int	check_arg(char **argv)
 {
-	if ((ft_atoi(argv[1]) > 200) || (ft_atoi(argv[1] < 0)))
+	if ((ft_atoi(argv[1]) > 200) || (ft_atoi(argv[1]) < 0))
 		return (ft_error("ERROR: Number of philosopher"));
 	if (ft_atoi(argv[2] ) <= 0)
 		return (ft_error("ERROR: Time to die"));
@@ -39,5 +39,5 @@ int main(int argc, char **argv)
 		return (ft_error("ERROR: Number of arguments"));
 	if (check_arg(argv))
 		return (1);
-	init_program(&data, philos, argv);
+	init_program(philos, &data, argv);
 }

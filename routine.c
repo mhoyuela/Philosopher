@@ -14,6 +14,11 @@
 
 void	grab_forks(t_philos *philos)
 {
+	if (!philos->fork_1 || !philos->fork_2)
+	{
+        printf("Null pinter\n");
+        return;
+    }
 	if (philos->id % 2 == 0)
 	{
 		pthread_mutex_lock(philos->fork_1);
