@@ -35,6 +35,7 @@ int main(int argc, char **argv)
 	t_philos		philos[200];
 	t_data			data;
 
+	data.n_philos = ft_atoi(argv[1]);
 	if (argc != 5 && argc != 6)
 		return (ft_error("ERROR: Number of arguments"));
 	if (check_arg(argv))
