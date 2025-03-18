@@ -49,14 +49,21 @@ void init_forks(pthread_mutex_t *forks, int n_philos)
 	}
 	while (i < n_philos) 
 	{
+		if (pthread_mutex_init(&forks[i], NULL) != 0)
+		{
+			printf("Error: No se pudo inicializar el tenedor %d.\n", i);
+			exit(1);  // Detener la ejecución
+		}
 		pthread_mutex_init(&forks[i], NULL);
 		i++;
 	}
 }
 
-void init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **argv) {
-    int i = 0;
-    while (i < data->n_philos) {
+void init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **argv)
+{
+	int i;
+	i = 0;
+	while (i < data->n_philos) {
 		data->time_to_die = ft_atoi(argv[2]);  // Accede directamente a data
 		data->time_to_eat = ft_atoi(argv[3]);
 		data->time_to_sleep = ft_atoi(argv[4]);
@@ -66,7 +73,7 @@ void init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **a
 		if (philos[i].id == 1) {
 		philos[i].fork_2 = &forks[data->n_philos - 1];
 		} else {
-    		philos[i].fork_2 = &forks[i - 1];
+			philos[i].fork_2 = &forks[i - 1];
 		}
 		philos[i].first_meal = ft_get_time();
 		philos[i].times_eaten = 0;

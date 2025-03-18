@@ -22,3 +22,9 @@ void    ft_print(char *str, t_philos *philos, int id)
         printf("%zu %d %s\n", time, id, str);
     pthread_mutex_unlock(&philos->data->write_lock);
 }
+
+void release_forks(t_philos *philos)
+{
+    pthread_mutex_unlock(philos->fork_1);  // Liberar tenedor izquierdo
+    pthread_mutex_unlock(philos->fork_2);  // Liberar tenedor derecho
+}

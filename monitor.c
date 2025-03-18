@@ -26,24 +26,28 @@ int ft_die(t_philos *philos, t_data *data)
 
 int ft_mealcounter(t_philos *philos, t_data *data)
 {
-	int	counter;
-	int	i;
+    int counter = 0;
+    int i = 0;
 
-	i = 0;
-	counter = 0;
-	if ((philos->n_time_to_eat) == -1)
-		return (0);
-	while (i < data->n_philos)
+	if (data->n_time_to_eat == -1)
 	{
-		usleep(4000);
-		pthread_mutex_lock(&philos->data->monitor_lock);
-		if (philos[i].times_eaten >= philos->n_time_to_eat)
-			counter++;
-		if (counter == data->n_philos)
-			return (1);
-		i++;
-		}
-	return (0);
+	    return 0;  // No hay límite de comidas
+	}
+
+	while (i < data->n_philos) {
+	    pthread_mutex_lock(&philos->data->monitor_lock);
+	    if (philos[i].times_eaten >= data->n_time_to_eat) {
+	        counter++;
+	    }
+	    pthread_mutex_unlock(&philos->data->monitor_lock);
+
+	    if (counter == data->n_philos) {
+	        return 1;  // Todos han comido suficiente
+	    }
+	    i++;
+	}
+
+	return 0;  // No todos han comido suficiente
 }
 
 void ft_monitor(t_data *data, t_philos *philos)
@@ -59,10 +63,10 @@ void ft_monitor(t_data *data, t_philos *philos)
 		{
 			pthread_mutex_lock(&philos->data->write_lock);
 			data->dead_flag = 1;
+			pthread_mutex_unlock(&philos->data->write_lock);
 			break ;
 		}
 		usleep(1000);
 		i++;
 	}
-	pthread_mutex_unlock(&philos->data->write_lock);
 }

@@ -56,6 +56,7 @@ typedef struct s_data
 	int				n_philos;
 	size_t			time_to_die;
 	size_t			time_to_eat;
+	int				n_time_to_eat;
 	int				meals_finish;
 	int				dead_flag;
 	long			time_to_sleep;
@@ -85,7 +86,7 @@ int		ft_loop(t_philos *philos);
 void	ft_destroy(t_data *data, pthread_mutex_t *forks);
 
 //prints
-
+void	release_forks(t_philos *philos);
 void	ft_print(char *str, t_philos *philos, int id);
 
 //monitor

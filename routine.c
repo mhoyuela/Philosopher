@@ -29,23 +29,25 @@ void	grab_forks(t_philos *philos)
 	else
 	{
 		pthread_mutex_lock(philos->fork_2);
-		ft_print("has taken a fork",philos, philos->id);
+		printf("Filósofo %d tomando tenedor dcho.\n", philos->id);
 		pthread_mutex_lock(philos->fork_1);
 		ft_print("has taken a fork",philos, philos->id);
 	}
 }
 
-void	ft_eat(t_philos *philos)
+void ft_eat(t_philos *philos)
 {
-	grab_forks(philos);
+	grab_forks(philos);  // Tomar tenedores
+
 	pthread_mutex_lock(&philos->data->monitor_lock);
-	philos->last_meal = ft_get_time();
-	philos->times_eaten++;
+	philos->last_meal = ft_get_time();  // Actualizar última comida
+	philos->times_eaten++;  // Incrementar contador de comidas
 	pthread_mutex_unlock(&philos->data->monitor_lock);
-	ft_print("is eating", philos, philos->id);
-	usleep((philos->n_time_to_eat) * 1000);
-	pthread_mutex_unlock(philos->fork_2);
-	pthread_mutex_unlock(philos->fork_1);
+
+	ft_print("is eating", philos, philos->id);  // Imprimir mensaje
+	usleep(philos->data->time_to_eat * 1000);  // Esperar tiempo de comer
+
+	release_forks(philos);  // Liberar tenedores
 }
 
 void	ft_sleep(t_philos *philos)
