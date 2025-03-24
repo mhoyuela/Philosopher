@@ -28,3 +28,12 @@ void release_forks(t_philos *philos)
     pthread_mutex_unlock(philos->fork_1);  // Liberar tenedor izquierdo
     pthread_mutex_unlock(philos->fork_2);  // Liberar tenedor derecho
 }
+int	ft_usleep(size_t milisec)
+{
+	size_t	start;
+
+	start = ft_get_time();
+	while ((ft_get_time() - start) < milisec)
+		usleep(10);
+	return (0);
+}

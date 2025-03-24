@@ -58,6 +58,7 @@ typedef struct s_data
 	size_t			time_to_eat;
 	int				n_time_to_eat;
 	int				meals_finish;
+	size_t			program_start;
 	int				dead_flag;
 	long			time_to_sleep;
 	long			time;
@@ -88,6 +89,7 @@ void	ft_destroy(t_data *data, pthread_mutex_t *forks);
 //prints
 void	release_forks(t_philos *philos);
 void	ft_print(char *str, t_philos *philos, int id);
+int		ft_usleep(size_t milisec);
 
 //monitor
 

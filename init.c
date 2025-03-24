@@ -19,7 +19,7 @@ void	init_threads(t_data *data, pthread_mutex_t *forks, t_philos *philos)
 	i = 0;
 	while (i < data->n_philos)
 	{
-		usleep(5000);
+		//ft_usleep (5);
 		if (pthread_create(&philos[i].thread, NULL, &routine, &philos[i]) != 0)
 		{
 			ft_destroy(data, forks);
@@ -75,7 +75,7 @@ void init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **a
 		} else {
 			philos[i].fork_2 = &forks[i - 1];
 		}
-		philos[i].first_meal = ft_get_time();
+		philos[i].first_meal = data->program_start;
 		philos[i].times_eaten = 0;
 		if (argv[5]) {
 		philos[i].n_time_to_eat = ft_atoi(argv[5]);
@@ -85,6 +85,7 @@ void init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **a
 		philos[i].data = data;
 		i++;
 	}
+	data->n_time_to_eat = philos[0].n_time_to_eat;
 }
 
 void	init_program(t_philos *philos, t_data *data, char **argv)
@@ -97,15 +98,17 @@ void	init_program(t_philos *philos, t_data *data, char **argv)
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
 	init_forks(forks, data->n_philos);
+	data->program_start = ft_get_time();
 	init_philo(philos, data, forks, argv);
 	data->philos = philos;
 	if (data->n_philos == 1)
 	{
 		ft_print("has taken a fork", philos, philos->id);
-		usleep(ft_atoi(argv[2]) * 1000);
+		ft_usleep(ft_atoi(argv[2]));
 		ft_print("died", philos, philos->id);
 		return ;
 	}
+	//data->n_time_to_eat = data->philos[0]->n_time
 	init_threads(data, forks, philos);
 }
 

@@ -41,4 +41,5 @@ int main(int argc, char **argv)
 	if (check_arg(argv))
 		return (1);
 	init_program(philos, &data, argv);
+	return (0);
 }

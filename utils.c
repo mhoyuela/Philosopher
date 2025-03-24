@@ -62,7 +62,7 @@ int	ft_error(char *str)
 
 size_t	ft_get_time(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		write(2, "gettimeofday() error\n", 22);

@@ -29,7 +29,7 @@ void	grab_forks(t_philos *philos)
 	else
 	{
 		pthread_mutex_lock(philos->fork_2);
-		printf("Filósofo %d tomando tenedor dcho.\n", philos->id);
+		ft_print("has taken a fork",philos, philos->id);
 		pthread_mutex_lock(philos->fork_1);
 		ft_print("has taken a fork",philos, philos->id);
 	}
@@ -45,7 +45,7 @@ void ft_eat(t_philos *philos)
 	pthread_mutex_unlock(&philos->data->monitor_lock);
 
 	ft_print("is eating", philos, philos->id);  // Imprimir mensaje
-	usleep(philos->data->time_to_eat * 1000);  // Esperar tiempo de comer
+	ft_usleep(philos->data->time_to_eat);  // Esperar tiempo de comer
 
 	release_forks(philos);  // Liberar tenedores
 }
@@ -53,13 +53,13 @@ void ft_eat(t_philos *philos)
 void	ft_sleep(t_philos *philos)
 {
 	ft_print("is sleeping", philos, philos->id);
-	usleep((philos->time_to_sleep) * 1000);
+	ft_usleep(philos->time_to_sleep);
 }
 
 void	ft_think(t_philos *philos)
 {
 	ft_print("is thinking", philos, philos->id);
-	usleep((philos->time_to_sleep) * 1000);
+	ft_usleep (1);
 }
 
 void	*routine(void *ptr)
@@ -68,7 +68,7 @@ void	*routine(void *ptr)
 
 	philos = (t_philos *)ptr;
 	if (philos->id % 2 == 0)
-		usleep(100000);
+		ft_usleep(10);
 	while (!ft_loop(philos))
 	{
 		ft_eat(philos);
