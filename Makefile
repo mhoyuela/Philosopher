@@ -1,6 +1,6 @@
 NAME    = philo
 USER    = mhoyuela
-CFLAGS  = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS  = -Wall -Wextra -Werror -g -fsanitize=address
 CC      = clang
 
 SRCS    := init.c monitor.c main.c routine.c utils.c prints.c

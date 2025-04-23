@@ -12,22 +12,23 @@
 
 #include "philo.h"
 
-void    ft_print(char *str, t_philos *philos, int id)
+void	ft_print(char *str, t_philos *philos, int id, char *c)
 {
-    size_t  time;
+	size_t	time;
 
-    time = ft_get_time() - philos->first_meal;
-    pthread_mutex_lock(&philos->data->write_lock);
-    if (!philos->data->dead_flag)
-        printf("%zu %d %s\n", time, id, str);
-    pthread_mutex_unlock(&philos->data->write_lock);
+	time = ft_get_time() - philos->first_meal;
+	pthread_mutex_lock(&philos->data->write_lock);
+	if (!philos->data->dead_flag)
+		printf("%s%zu %d %s\n\033[37;1m", c, time, id, str);
+	pthread_mutex_unlock(&philos->data->write_lock);
 }
 
-void release_forks(t_philos *philos)
+void	release_forks(t_philos *philos)
 {
-    pthread_mutex_unlock(philos->fork_1);  // Liberar tenedor izquierdo
-    pthread_mutex_unlock(philos->fork_2);  // Liberar tenedor derecho
+	pthread_mutex_unlock(philos->fork_2);
+	pthread_mutex_unlock(philos->fork_1);
 }
+
 int	ft_usleep(size_t milisec)
 {
 	size_t	start;

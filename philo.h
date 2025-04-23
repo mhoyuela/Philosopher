@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOFT_H
-# define PHILOFT_H
+#ifndef PHILO_H
+# define PHILO_H
 
 # include <pthread.h>
 # include <stdlib.h>
@@ -67,16 +67,16 @@ typedef struct s_data
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
-	t_philos		*philos; 
+	t_philos		*philos;
 }					t_data;
 
 //init
 
 void	init_forks(pthread_mutex_t *forks, int n_philos);
-void	init_philo(t_philos *philos, t_data *data, pthread_mutex_t *forks, char **argv);
+void	init_philo(t_philos *philos, t_data *data, \
+	pthread_mutex_t *forks, char **argv);
 void	init_program(t_philos *philos, t_data *data, char **argv);
 void	init_threads(t_data *data, pthread_mutex_t *forks, t_philos *philos);
-
 
 //utils
 
@@ -88,7 +88,7 @@ void	ft_destroy(t_data *data, pthread_mutex_t *forks);
 
 //prints
 void	release_forks(t_philos *philos);
-void	ft_print(char *str, t_philos *philos, int id);
+void	ft_print(char *str, t_philos *philos, int id, char *c);
 int		ft_usleep(size_t milisec);
 
 //monitor
@@ -102,4 +102,5 @@ void	ft_monitor(t_data *data, t_philos *philos);
 void	grab_forks(t_philos *philos);
 void	ft_eat(t_philos *philos);
 void	*routine(void *ptr);
+
 #endif

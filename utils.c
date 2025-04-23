@@ -12,39 +12,32 @@
 
 #include "philo.h"
 
-long ft_atoi(char *str)
+long	ft_atoi(char *str)
 {
-	long	result;
+	long	r;
 	int		i;
-	int		sign;
+	int		s;
 
-	sign = 1;
-	result = 0;
-	i = 0;
-	if (str == NULL)
+	if (!str)
 		return (0);
-	while ((str[i] == ' ') || (str[i] >= 9 && str[i] <= 13))
+	r = 0;
+	i = 0;
+	s = 1;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	if (str[i] == '+')
-		i++;
-	if (str[i] == '-')
+	if (str[i] == '+' || str[i] == '-')
 	{
-		sign *= -1;
+		if (str[i] == '-')
+			s = -1;
 		i++;
 	}
 	if (str[i] == '\0')
 		return (-1);
-	while (str[i])
-	{
-		if (str[i] >= '0' && str[i] <= '9')
-		{
-			result = (result * 10) + (str[i] - '0');
-			i++;
-		}
-		else
-			return (-1);
-	}
-	return (result * sign);
+	while (str[i] >= '0' && str[i] <= '9')
+		r = (r * 10) + (str[i++] - '0');
+	if (str[i] != '\0')
+		return (-1);
+	return (r * s);
 }
 
 int	ft_error(char *str)

@@ -14,11 +14,11 @@
 
 int	check_arg(char **argv)
 {
-	if ((ft_atoi(argv[1]) > 200) || (ft_atoi(argv[1]) < 0))
+	if ((ft_atoi(argv[1]) > 200) || (ft_atoi(argv[1]) <= 0))
 		return (ft_error("ERROR: Number of philosopher"));
-	if (ft_atoi(argv[2] ) <= 0)
+	if (ft_atoi(argv[2]) <= 0)
 		return (ft_error("ERROR: Time to die"));
-	if (ft_atoi(argv[3] ) <= 0)
+	if (ft_atoi(argv[3]) <= 0)
 		return (ft_error("ERROR: Time to eat"));
 	if (ft_atoi(argv[4]) <= 0)
 		return (ft_error("ERROR: time to sleep"));
@@ -30,7 +30,7 @@ int	check_arg(char **argv)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_philos		philos[200];
 	t_data			data;

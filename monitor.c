@@ -8,15 +8,16 @@
 /*   Created: 2025-03-03 11:29:53 by mhoyuela          #+#    #+#             */
 /*   Updated: 2025-03-03 11:29:53 by mhoyuela         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */	
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int ft_die(t_philos *philos, t_data *data)
+int	ft_die(t_philos *philos, t_data *data)
 {
 	pthread_mutex_lock(&philos->data->monitor_lock);
 	if (ft_get_time() - philos->last_meal >= data->time_to_die)
 	{
-		ft_print("philos died", philos, philos->id);
+		ft_print("philos died", philos, philos->id, RED);
 		pthread_mutex_unlock(&philos->data->monitor_lock);
 		return (1);
 	}
@@ -24,36 +25,31 @@ int ft_die(t_philos *philos, t_data *data)
 	return (0);
 }
 
-int ft_mealcounter(t_philos *philos, t_data *data)
+int	ft_mealcounter(t_philos *philos, t_data *data)
 {
-    int counter = 0;
-    int i = 0;
+	int	counter;
+	int	i;
 
+	i = 0;
+	counter = 0;
 	if (data->n_time_to_eat == -1)
-	{
-	    return 0;  // No hay límite de comidas
-	}
+		return (0);
 	while (i < data->n_philos)
 	{
-		ft_usleep(4);
-	    pthread_mutex_lock(&philos->data->monitor_lock);
-	    if (philos[i].times_eaten >= data->n_time_to_eat) {
-	        counter++;
-	    }
-	    pthread_mutex_unlock(&philos->data->monitor_lock);
-
-	    if (counter == data->n_philos) {
-			return 1;  // Todos han comido suficiente
-	    }
-	    i++;
+		pthread_mutex_lock(&philos->data->monitor_lock);
+		if (philos[i].times_eaten >= data->n_time_to_eat)
+			counter++;
+		pthread_mutex_unlock(&philos->data->monitor_lock);
+		if (counter == data->n_philos)
+			return (1);
+		i++;
 	}
-
-	return 0;  // No todos han comido suficiente
+	return (0);
 }
 
-void ft_monitor(t_data *data, t_philos *philos)
+void	ft_monitor(t_data *data, t_philos *philos)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (1)
@@ -62,12 +58,11 @@ void ft_monitor(t_data *data, t_philos *philos)
 			i = 0;
 		if (ft_die(&philos[i], data) || ft_mealcounter(philos, data))
 		{
-			pthread_mutex_lock(&philos->data->write_lock);
+			pthread_mutex_lock(&philos->data->monitor_lock);
 			data->dead_flag = 1;
-			pthread_mutex_unlock(&philos->data->write_lock);
+			pthread_mutex_unlock(&philos->data->monitor_lock);
 			break ;
 		}
-		ft_usleep(1);
 		i++;
 	}
 }
